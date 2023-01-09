@@ -19,7 +19,7 @@
 		interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_LOW>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&uart2m0_xfer>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	firmware {
@@ -124,8 +124,4 @@
 
 &video_phy {
 	status = "okay";
-};
-
-&vopb {
-	support-multi-area;
 };

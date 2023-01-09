@@ -70,13 +70,13 @@
 			232 233 234 235 236 237 238 239
 			240 241 242 243 244 245 246 247
 			248 249 250 251 252 253 254 255>;
-		default-brightness-level = <200>;
+		default-brightness-level = <160>;
 	};
 
 	charge-animation {
 		compatible = "rockchip,uboot-charge";
-		rockchip,uboot-charge-on = <1>;
-		rockchip,android-charge-on = <0>;
+		rockchip,uboot-charge-on = <0>;
+		rockchip,android-charge-on = <1>;
 		rockchip,uboot-low-power-voltage = <3500>;
 		rockchip,screen-on-voltage = <3600>;
 		status = "okay";
@@ -139,7 +139,6 @@
 		compatible = "wlan-platdata";
 		wifi_chip_type = "rtl8723cs";
 		WIFI,host_wake_irq = <&gpio0 RK_PB2 GPIO_ACTIVE_HIGH>;
-		WIFI,vbat_gpio = <&gpio3 RK_PB6 GPIO_ACTIVE_LOW>;
 		status = "okay";
 	};
 
@@ -151,7 +150,6 @@
 		pinctrl-1 = <&uart1_rts_gpio>;
 		BT,reset_gpio = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>;
 		BT,wake_gpio = <&gpio0 RK_PA1 GPIO_ACTIVE_HIGH>;
-		BT,wake_host_irq = <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
 };
@@ -168,8 +166,9 @@
 		compatible = "aoly,sl008pa21y1285-b00", "simple-panel-dsi";
 		reg = <0>;
 		backlight = <&backlight>;
-		enable-gpios = <&gpio0 RK_PB7 GPIO_ACTIVE_LOW>;
-		reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
+		enable-gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_LOW>;
+        enable1-gpios = <&gpio1 RK_PC0 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&gpio1 RK_PB7 GPIO_ACTIVE_LOW>;
 		prepare-delay-ms = <20>;
 		reset-delay-ms = <20>;
 		init-delay-ms = <20>;
@@ -177,8 +176,8 @@
 		disable-delay-ms = <20>;
 		unprepare-delay-ms = <20>;
 
-		width-mm = <108>;
-		height-mm = <172>;
+		width-mm = <86>;
+		height-mm = <155>;
 
 		dsi,flags = <(MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
 			      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_EOT_PACKET)>;
@@ -186,8 +185,7 @@
 		dsi,lanes = <4>;
 
 		panel-init-sequence = [
-			05 78 01 11
-			05 14 01 29
+            05 1e 01 01 15 00 02 80 ac 15 00 02 81 b8 15 00 02 82 09 15 00 02 83 78 15 00 02 84 7f 15 00 02 85 bb 15 78 02 86 70 05 78 01 11 05 05 01 29
 		];
 
 		panel-exit-sequence = [
@@ -199,15 +197,15 @@
 			native-mode = <&timing0>;
 
 			timing0: timing0 {
-				clock-frequency = <66000000>;
-				hactive = <800>;
-				vactive = <1280>;
-				hfront-porch = <2>;
-				hsync-len = <18>;
-				hback-porch = <18>;
-				vfront-porch = <4>;
-				vsync-len = <4>;
-				vback-porch = <16>;
+				clock-frequency = <45000000>;
+				hactive = <1024>;
+				vactive = <600>;
+				hfront-porch = <160>;
+				hsync-len = <10>;
+				hback-porch = <160>;
+				vfront-porch = <12>;
+				vsync-len = <1>;
+				vback-porch = <23>;
 				hsync-active = <0>;
 				vsync-active = <0>;
 				de-active = <0>;
@@ -524,32 +522,32 @@
 
 			vcc2v8_dvp: LDO_REG7 {
 				regulator-boot-on;
-				regulator-min-microvolt = <2800000>;
-				regulator-max-microvolt = <2800000>;
+				regulator-min-microvolt = <2900000>;
+				regulator-max-microvolt = <2900000>;
 
 				regulator-name = "vcc2v8_dvp";
 				regulator-state-mem {
 					regulator-off-in-suspend;
-					regulator-suspend-microvolt = <2800000>;
+					regulator-suspend-microvolt = <2900000>;
 				};
 			};
 
 			vcc1v8_dvp: LDO_REG8 {
 				regulator-boot-on;
-				regulator-min-microvolt = <1800000>;
-				regulator-max-microvolt = <1800000>;
+				regulator-min-microvolt = <1900000>;
+				regulator-max-microvolt = <1900000>;
 
 				regulator-name = "vcc1v8_dvp";
 				regulator-state-mem {
 					regulator-off-in-suspend;
-					regulator-suspend-microvolt = <1800000>;
+					regulator-suspend-microvolt = <1900000>;
 				};
 			};
 
 			vdd1v5_dvp: LDO_REG9 {
 				regulator-boot-on;
-				regulator-min-microvolt = <1500000>;
-				regulator-max-microvolt = <1500000>;
+				regulator-min-microvolt = <1300000>;
+				regulator-max-microvolt = <1300000>;
 
 				regulator-name = "vdd1v5_dvp";
 				regulator-state-mem {
@@ -573,17 +571,17 @@
 
 		battery {
 			compatible = "rk817,battery";
-			ocv_table = <3500 3548 3592 3636 3687 3740 3780
-				3806 3827 3846 3864 3889 3929 3964
-				3993 4015 4030 4041 4056 4076 4148>;
-			design_capacity = <4000>;
-			design_qmax = <4200>;
-			bat_res = <100>;
+			ocv_table = <3400 3663 3688 3711 3736 3754 3772
+				3787 3802 3819 3841 3867 3907 3957
+                3990 4046 4088 4139 4191 4245 4326>;
+			design_capacity = <3274>;
+			design_qmax = <3601>;
+			bat_res = <87>;
 			sleep_enter_current = <150>;
 			sleep_exit_current = <180>;
 			sleep_filter_current = <100>;
-			power_off_thresd = <3500>;
-			zero_algorithm_vol = <3850>;
+			power_off_thresd = <3400>;
+			zero_algorithm_vol = <3950>;
 			max_soc_offset = <60>;
 			monitor_sec = <5>;
 			sample_res = <10>;
@@ -594,10 +592,10 @@
 			compatible = "rk817,charger";
 			min_input_voltage = <4500>;
 			max_input_current = <1500>;
-			max_chrg_current = <2000>;
-			max_chrg_voltage = <4200>;
+			max_chrg_current = <1500>;
+			max_chrg_voltage = <4450>;
 			chrg_term_mode = <0>;
-			chrg_finish_cur = <300>;
+			chrg_finish_cur = <150>;
 			virtual_power = <0>;
 			dc_det_adc = <0>;
 			extcon = <&u2phy>;
@@ -606,12 +604,15 @@
 		rk817_codec: codec {
 			#sound-dai-cells = <0>;
 			compatible = "rockchip,rk817-codec";
+            spk-ctl-gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_HIGH>;
+            use-ext-amplifier;
 			clocks = <&cru SCLK_I2S1_OUT>;
 			clock-names = "mclk";
 			pinctrl-names = "default";
 			pinctrl-0 = <&i2s1_2ch_mclk>;
 			hp-volume = <20>;
-			spk-volume = <3>;
+			spk-volume = <18>;
+            capture-volume = <7>;
 			mic-in-differential;
 			status = "okay";
 		};
@@ -629,17 +630,32 @@
 		rst_gpio_number = <&gpio0 RK_PB4 GPIO_ACTIVE_HIGH>;
 	};
 
-	sensor@19 {
-		status = "okay";
-		compatible = "gs_lis3dh";
-		reg = <0x19>;
-		type = <SENSOR_TYPE_ACCEL>;
-		irq-gpio = <&gpio0 RK_PB5 IRQ_TYPE_LEVEL_LOW>;
-		irq_enable = <0>;
-		poll_delay_ms = <30>;
-		layout = <7>;
-		reprobe_en = <1>;
-	};
+    sensor7660@1d {
+        compatible = "gs_sc7660";
+        reg = <0x1d>;
+        type = <SENSOR_TYPE_ACCEL>;
+        irq_enable = <0>;
+        poll_delay_ms = <10>;
+        layout = <7>;
+        reprobe_en = <1>;
+        revert_x = <0>;
+        revert_y = <0>;
+        revert_z = <0>;
+    };
+
+    sensor7a20@19 {
+        compatible = "gs_sc7a20";
+        reg = <0x19>;
+        type = <SENSOR_TYPE_ACCEL>;
+        irq_enable = <0>;
+        poll_delay_ms = <10>;
+        layout = <7>;
+        reprobe_en = <0>;
+        swap_xy = <0>;
+        revert_x = <0>;
+        revert_y = <0>;
+        revert_z = <0>;
+    };
 };
 
 &i2c2 {
@@ -739,7 +755,7 @@
 	sd-uhs-sdr104;
 	vqmmc-supply = <&vccio_sd>;
 	vmmc-supply = <&vcc_sd>;
-	status = "disabled";
+	status = "okay";
 };
 
 &sdio {
