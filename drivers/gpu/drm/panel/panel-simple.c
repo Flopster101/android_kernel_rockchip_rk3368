@@ -690,7 +690,9 @@ static int panel_simple_prepare(struct drm_panel *panel)
 static int panel_simple_enable(struct drm_panel *panel)
 {
 	struct panel_simple *p = to_panel_simple(panel);
+#if defined(CONFIG_TINKER_MCU)
 	static bool the_first_time_rpi_enable = true;
+#endif
 	int err = 0;
 
 	printk("panel_simple_enable p->enabled=%d\n", p->enabled);
@@ -3685,7 +3687,9 @@ static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
 	struct panel_desc_dsi *d;
 	const struct of_device_id *id;
 	int err;
+#if defined(CONFIG_TINKER_MCU)
 	int dsi_id;
+#endif
 
 	id = of_match_node(dsi_of_match, dsi->dev.of_node);
 	if (!id)
