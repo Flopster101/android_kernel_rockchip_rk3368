@@ -41,6 +41,7 @@
 
 #include "../rockchip/rockchip_drm_drv.h"
 
+#if defined(CONFIG_TINKER_MCU)
 #include "../bridge/sn65dsi8x/sn65dsi84.h"
 #include "../bridge/sn65dsi8x/sn65dsi86.h"
 
@@ -52,6 +53,7 @@ extern void sn65dsi86_bridge_disable(void);
 extern bool sn65dsi86_is_connected(void);
 extern struct sn65dsi84_data *g_sn65dsi84;
 extern struct sn65dsi86_data *g_sn65dsi86;
+#endif
 
 struct panel_cmd_header {
 	u8 data_type;
@@ -530,11 +532,13 @@ static int panel_simple_loader_protect(struct drm_panel *panel, bool on)
 		p->prepared = true;
 		p->enabled = true;
 
+        #if defined(CONFIG_TINKER_MCU)
 		if (sn65dsi84_is_connected())
 			sn65dsi84_loader_protect(true);
 
 		if (sn65dsi86_is_connected())
 			sn65dsi86_loader_protect(true);
+        #endif
 	} else {
 		#if defined(CONFIG_TINKER_MCU)
 		if (tinker_mcu_is_connected(p->dsi_id)) {
@@ -563,11 +567,13 @@ static int panel_simple_disable(struct drm_panel *panel)
 		backlight_update_status(p->backlight);
 	}
 
+#if defined(CONFIG_TINKER_MCU)
 	if (sn65dsi84_is_connected())
 		sn65dsi84_bridge_disable();
 
 	if (sn65dsi86_is_connected())
 		sn65dsi86_bridge_disable();
+#endif
 
 	if (p->desc->delay.disable)
 		panel_simple_sleep(p->desc->delay.disable);
@@ -3664,6 +3670,7 @@ static int panel_simple_dsi_of_get_desc_data(struct device *dev,
 	return 0;
 }
 
+#if defined(CONFIG_TINKER_MCU)
 void sn65dsi84_setup_desc(struct panel_desc_dsi *desc)
 {
 	drm_display_mode_to_videomode(desc->desc.modes, &g_sn65dsi84->vm);
@@ -3678,6 +3685,7 @@ void sn65dsi86_setup_desc(struct panel_desc_dsi *desc)
 	g_sn65dsi86->format = desc->format;
 	g_sn65dsi86->bpc = desc->desc.bpc;
 }
+#endif
 
 static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
 {

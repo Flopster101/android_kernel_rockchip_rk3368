@@ -1242,10 +1242,12 @@ static void dw_mipi_dsi_pre_enable(struct dw_mipi_dsi *dsi)
 		dw_mipi_dsi_pre_enable(dsi->slave);
 }
 
+#if defined(CONFIG_TINKER_MCU)
 extern void sn65dsi84_bridge_enable(void);
 extern void sn65dsi86_bridge_enable(void);
 extern  bool sn65dsi84_is_connected(void);
 extern bool sn65dsi86_is_connected(void);
+#endif
 
 static void dw_mipi_dsi_enable(struct dw_mipi_dsi *dsi)
 {
@@ -1286,11 +1288,13 @@ static void dw_mipi_dsi_enable(struct dw_mipi_dsi *dsi)
 	regmap_update_bits(dsi->regmap, DSI_LPCLK_CTRL,
 			   PHY_TXREQUESTCLKHS, PHY_TXREQUESTCLKHS);
 
+#if defined(CONFIG_TINKER_MCU)
 	if (sn65dsi84_is_connected())
 		sn65dsi84_bridge_enable();
 
 	if (sn65dsi86_is_connected())
 		sn65dsi86_bridge_enable();
+#endif
 
 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO)
 		dw_mipi_dsi_set_vid_mode(dsi);
