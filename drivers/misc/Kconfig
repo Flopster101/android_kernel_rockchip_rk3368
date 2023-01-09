@@ -530,14 +530,14 @@ config UID_SYS_STATS_DEBUG
 
 config TINKER_MCU
 	tristate "tinker mcu"
-	default y
+	default n
 	depends on I2C
 	help
 		Control the power of toshiba tc358762 panel on tinker board.
 
 config TINKER_MCU_ILI9881C
 	tristate "tinker mcu ili9881c"
-	default y
+	default n
 	depends on I2C
 	help
 		Control the power of ASUS ili9881c panel on tinker board.
