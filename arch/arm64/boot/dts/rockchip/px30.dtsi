@@ -272,7 +272,7 @@
 	};
 
 	firmware {
-		optee {
+		optee: optee {
 			compatible = "linaro,optee-tz";
 			method = "smc";
 		};
@@ -1612,7 +1612,6 @@
 		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE>;
 		clock-names = "aclk_rga", "hclk_rga", "clk_rga";
 		power-domains = <&power PX30_PD_VO>;
-        dma-coherent;
 		status = "disabled";
 	};
 
@@ -1833,16 +1832,16 @@
 		downdifferential = <20>;
 		system-status-freq = <
 			/*system status         freq(KHz)*/
-			SYS_STATUS_NORMAL       456000
-			SYS_STATUS_REBOOT       456000
-			SYS_STATUS_SUSPEND      456000
-			SYS_STATUS_VIDEO_1080P  456000
-			SYS_STATUS_BOOST        456000
-			SYS_STATUS_ISP          456000
-			SYS_STATUS_PERFORMANCE  456000
+			SYS_STATUS_NORMAL       528000
+			SYS_STATUS_REBOOT       450000
+			SYS_STATUS_SUSPEND      194000
+			SYS_STATUS_VIDEO_1080P  450000
+			SYS_STATUS_BOOST        528000
+			SYS_STATUS_ISP          666000
+			SYS_STATUS_PERFORMANCE  666000
 		>;
 		auto-min-freq = <328000>;
-		auto-freq-en = <0>;
+		auto-freq-en = <1>;
 		#cooling-cells = <2>;
 		status = "disabled";
 
@@ -1869,6 +1868,14 @@
 		>;
 		rockchip,pvtm-ch = <0 0>;
 
+		opp-194000000 {
+			opp-hz = /bits/ 64 <194000000>;
+			opp-microvolt = <950000>;
+			opp-microvolt-L0 = <950000>;
+			opp-microvolt-L1 = <950000>;
+			opp-microvolt-L2 = <950000>;
+			opp-microvolt-L3 = <950000>;
+		};
 		opp-328000000 {
 			opp-hz = /bits/ 64 <328000000>;
 			opp-microvolt = <950000>;
@@ -1876,7 +1883,6 @@
 			opp-microvolt-L1 = <950000>;
 			opp-microvolt-L2 = <950000>;
 			opp-microvolt-L3 = <950000>;
-            status = "disabled";
 		};
 		opp-450000000 {
 			opp-hz = /bits/ 64 <450000000>;
@@ -1885,15 +1891,31 @@
 			opp-microvolt-L1 = <950000>;
 			opp-microvolt-L2 = <950000>;
 			opp-microvolt-L3 = <950000>;
-            status = "disabled";
 		};
-		opp-456000000 {
-			opp-hz = /bits/ 64 <456000000>;
+		opp-528000000 {
+			opp-hz = /bits/ 64 <528000000>;
 			opp-microvolt = <975000>;
 			opp-microvolt-L0 = <975000>;
 			opp-microvolt-L1 = <975000>;
 			opp-microvolt-L2 = <950000>;
 			opp-microvolt-L3 = <950000>;
+		};
+		opp-666000000 {
+			opp-hz = /bits/ 64 <666000000>;
+			opp-microvolt = <1050000>;
+			opp-microvolt-L0 = <1050000>;
+			opp-microvolt-L1 = <1000000>;
+			opp-microvolt-L2 = <975000>;
+			opp-microvolt-L3 = <950000>;
+		};
+		opp-786000000 {
+			opp-hz = /bits/ 64 <786000000>;
+			opp-microvolt = <1100000>;
+			opp-microvolt-L0 = <1100000>;
+			opp-microvolt-L1 = <1050000>;
+			opp-microvolt-L2 = <1025000>;
+			opp-microvolt-L3 = <1000000>;
+			status = "disabled";
 		};
 	};
 
